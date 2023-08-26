@@ -75,7 +75,7 @@ public class LocationStats {
 
     @Override
     public String toString() {
-        return "LocationStats{state='" + state + ", country='" + country +
-                ", latitude='" + latitude + ", longitude='" + longitude + ", latestStats=" + latestStats + '}';
+        return "LocationStats{state=" + state + ", country=" + country +
+                ", latitude=" + latitude + ", longitude=" + longitude + ", latestStats=" + latestStats + '}';
     }
 }
