@@ -1,8 +1,10 @@
 package com.codehacks.coronavirus.service;
 
+import com.codehacks.coronavirus.models.LocationStats;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -13,15 +15,19 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CoronaVirusService {
 
+    private List<LocationStats> allStats = new ArrayList<>();
+
     private static String VIRUS_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/UID_ISO_FIPS_LookUp_Table.csv";
     private static String VIRUS_DATA_URL2 = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv";
 
     @PostConstruct
+    @Scheduled(cron = "* * 1 * * *")
     public void fetchVirusData() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -33,16 +39,24 @@ public class CoronaVirusService {
         CSVFormat csvFormat = CSVFormat.Builder.create().setHeader().build();
         List<CSVRecord> records = new CSVParser(csvReader, csvFormat).getRecords();
 
+        List<LocationStats> newStats = new ArrayList<>();
+
         int i = 0;
         for (CSVRecord record : records) {
-            String country = record.get("Country/Region");
-            String latitude = record.get("Lat");
-            String longitude = record.get("Long");
+            LocationStats locationStats = new LocationStats();
+            locationStats.setState(record.get("Province/State"));
+            locationStats.setCountry(record.get("Country/Region"));
+            locationStats.setLatitude(record.get("Lat"));
+            locationStats.setLongitude(record.get("Long"));
+            //locationStats.setLatestStats(Integer.parseInt(record.get(record.size() - 1)));
+            locationStats.setLatestStats(Integer.parseInt(record.get("12/31/20")));
+            System.out.println(locationStats);
+            newStats.add(locationStats);
 
-            System.out.printf("%20s\t|\t%10s\t|\t%10s\n", country, latitude, longitude);
             i++;
-            if (i == 10) break;
+            if (i == 30) break;
         }
+        this.allStats = newStats;
     }
 }
 
