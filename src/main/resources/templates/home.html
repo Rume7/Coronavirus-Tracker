@@ -9,29 +9,34 @@
     </head>
     <body>
 
-        <h1>Coronavirus Tracker Application</h1>
-        <p>This application list the current number of cases reported across the globe</p>
+        <div class="container">
+            <h1>Coronavirus Tracker Application</h1>
+            <p>This application list the current number of cases reported across the globe</p>
 
-        <div class="jumbotron">
-            <h1 class="display-4" th:text="${totalReportedCases}"></h1>
-            <p class="lead">Total cases reported as of December 31, 2020</p>
+            <div class="jumbotron">
+                <h1 class="display-4" th:text="${totalReportedCases}"></h1>
+                <p class="lead">Total cases reported as of December 31, 2020</p>
+                <hr class="my-4">
+                <p>
+                    <span>New cases reported since previous day</span>
+                    <span th:text="${totalNewCases}"></span>
+                </p>
+            </div>
+
+            <table class="table">
+                <tr>
+                    <th>State</th>
+                    <th>Country</th>
+                    <th>Cases on 12/31/2020</th>
+                    <th>Changes since last day</th>
+                </tr>
+                <tr th:each="locationStat : ${locationStats}">
+                    <td th:text="${locationStat.state}"></td>
+                    <td th:text="${locationStat.country}"></td>
+                    <td th:text="${locationStat.latestTotalStats}">0</td>
+                    <td th:text="${locationStat.diffFromPrevDay}">0</td>
+                </tr>
+            </table>
         </div>
-
-        <table>
-            <tr>
-                <th>State</th>
-                <th>Country</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Cases reported on 12/31/2020</th>
-            </tr>
-            <tr th:each="locationStat : ${locationStats}">
-                <td th:text="${locationStat.state}"></td>
-                <td th:text="${locationStat.country}"></td>
-                <td th:text="${locationStat.latitude}"></td>
-                <td th:text="${locationStat.longitude}"></td>
-                <td th:text="${locationStat.latestTotalStats}">0</td>
-            </tr>
-        </table>
     </body>
 </html>
