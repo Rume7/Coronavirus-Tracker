@@ -6,7 +6,6 @@ import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -14,9 +13,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CoronaVirusService {
@@ -32,20 +29,20 @@ public class CoronaVirusService {
                 .build();
 
         HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-        
         Reader csvReader = new StringReader(httpResponse.body());
-        List<CSVRecord> records = CSVFormat.DEFAULT.parse(csvReader).getRecords();
+        CSVFormat csvFormat = CSVFormat.Builder.create().setHeader().build();
+        List<CSVRecord> records = new CSVParser(csvReader, csvFormat).getRecords();
 
         int i = 0;
         for (CSVRecord record : records) {
-            String state = record.get(0);
-            String country = record.get(1);
-            String latitude = record.get(2);
-            String longitude = record.get(3);
+            String country = record.get("Country/Region");
+            String latitude = record.get("Lat");
+            String longitude = record.get("Long");
 
-            System.out.printf("%17s\t|\t%10s\t|\t%10s\n", country, latitude, longitude);
-            ++i;
-            if (i == 5) break;
+            System.out.printf("%20s\t|\t%10s\t|\t%10s\n", country, latitude, longitude);
+            i++;
+            if (i == 10) break;
         }
     }
 }
+
