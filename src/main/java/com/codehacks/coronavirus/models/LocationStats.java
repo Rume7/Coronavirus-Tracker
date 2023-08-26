@@ -8,16 +8,16 @@ public class LocationStats {
     private String country;
     private String latitude;
     private String longitude;
-    private long latestStats;
+    private long latestTotalStats;
 
     public LocationStats() {}
 
-    public LocationStats(String state, String country, String latitude, String longitude, long latestStats) {
+    public LocationStats(String state, String country, String latitude, String longitude, long latestTotalStats) {
         this.state = state;
         this.country = country;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.latestStats = latestStats;
+        this.latestTotalStats = latestTotalStats;
     }
 
     public String getState() {
@@ -52,12 +52,12 @@ public class LocationStats {
         this.longitude = longitude;
     }
 
-    public long getLatestStats() {
-        return latestStats;
+    public long getLatestTotalStats() {
+        return latestTotalStats;
     }
 
-    public void setLatestStats(long latestStats) {
-        this.latestStats = latestStats;
+    public void setLatestTotalStats(long latestTotalStats) {
+        this.latestTotalStats = latestTotalStats;
     }
 
     @Override
@@ -76,6 +76,6 @@ public class LocationStats {
     @Override
     public String toString() {
         return "LocationStats{state=" + state + ", country=" + country +
-                ", latitude=" + latitude + ", longitude=" + longitude + ", latestStats=" + latestStats + '}';
+                ", latitude=" + latitude + ", longitude=" + longitude + ", latestStats=" + latestTotalStats + '}';
     }
 }
