@@ -10,15 +10,9 @@ public class LocationStats {
     private String longitude;
     private int latestTotalStats;
 
-    public LocationStats() {}
+    private int diffFromPrevDay;
 
-    public LocationStats(String state, String country, String latitude, String longitude, int latestTotalStats) {
-        this.state = state;
-        this.country = country;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.latestTotalStats = latestTotalStats;
-    }
+    public LocationStats() {}
 
     public String getState() {
         return state;
@@ -58,6 +52,14 @@ public class LocationStats {
 
     public void setLatestTotalStats(int latestTotalStats) {
         this.latestTotalStats = latestTotalStats;
+    }
+
+    public int getDiffFromPrevDay() {
+        return diffFromPrevDay;
+    }
+
+    public void setDiffFromPrevDay(int diffFromPrevDay) {
+        this.diffFromPrevDay = diffFromPrevDay;
     }
 
     @Override
