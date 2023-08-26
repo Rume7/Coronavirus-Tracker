@@ -41,7 +41,6 @@ public class CoronaVirusService {
 
         List<LocationStats> newStats = new ArrayList<>();
 
-        int i = 0;
         for (CSVRecord record : records) {
             LocationStats locationStats = new LocationStats();
             locationStats.setState(record.get("Province/State"));
@@ -49,14 +48,14 @@ public class CoronaVirusService {
             locationStats.setLatitude(record.get("Lat"));
             locationStats.setLongitude(record.get("Long"));
             //locationStats.setLatestStats(Integer.parseInt(record.get(record.size() - 1)));
-            locationStats.setLatestStats(Integer.parseInt(record.get("12/31/20")));
-            System.out.println(locationStats);
+            locationStats.setLatestTotalStats(Integer.parseInt(record.get("12/31/20")));
             newStats.add(locationStats);
-
-            i++;
-            if (i == 30) break;
         }
         this.allStats = newStats;
+    }
+
+    public List<LocationStats> getAllStats() {
+        return allStats;
     }
 }
 
